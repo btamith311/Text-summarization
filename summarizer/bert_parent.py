@@ -8,10 +8,6 @@ from transformers import *
 
 class BertParent(object):
 
-    """
-    Base handler for BERT models.
-    """
-
     MODELS = {
         'bert-base-uncased': (BertModel, BertTokenizer),
         'bert-large-uncased': (BertModel, BertTokenizer),
@@ -28,11 +24,7 @@ class BertParent(object):
         custom_model: PreTrainedModel=None,
         custom_tokenizer: PreTrainedTokenizer=None
     ):
-        """
-        :param model: Model is the string path for the bert weights. If given a keyword, the s3 path will be used.
-        :param custom_model: This is optional if a custom bert model is used.
-        :param custom_tokenizer: Place to use custom tokenizer.
-        """
+    
         base_model, base_tokenizer = self.MODELS.get(model, (None, None))
 
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -50,25 +42,12 @@ class BertParent(object):
         self.model.eval()
 
     def tokenize_input(self, text: str) -> torch.tensor:
-        """
-        Tokenizes the text input.
-
-        :param text: Text to tokenize.
-        :return: Returns a torch tensor.
-        """
         tokenized_text = self.tokenizer.tokenize(text)
         indexed_tokens = self.tokenizer.convert_tokens_to_ids(tokenized_text)
         return torch.tensor([indexed_tokens]).to(self.device)
 
     def _pooled_handler(self, hidden: torch.Tensor, reduce_option: str) -> torch.Tensor:
-        """
-        Handles torch tensor.
-
-        :param hidden: The hidden torch tensor to process.
-        :param reduce_option: The reduce option to use, such as mean, etc.
-        :return: Returns a torch tensor.
-        """
-
+    
         if reduce_option == 'max':
             return hidden.max(dim=1)[0].squeeze()
 
@@ -85,16 +64,6 @@ class BertParent(object):
         hidden_concat: bool = False
     ) -> torch.Tensor:
 
-        """
-        Extracts the embeddings for the given text.
-
-        :param text: The text to extract embeddings for.
-        :param hidden: The hidden layer(s) to use for a readout handler.
-        :param squeeze: If we should squeeze the outputs (required for some layers).
-        :param reduce_option: How we should reduce the items.
-        :param hidden_concat: Whether or not to concat multiple hidden layers.
-        :return: A torch vector.
-        """
         tokens_tensor = self.tokenize_input(text)
         pooled, hidden_states = self.model(tokens_tensor)[-2:]
 
@@ -129,15 +98,6 @@ class BertParent(object):
         reduce_option: str = 'mean',
         hidden_concat: bool = False
     ) -> ndarray:
-        """
-        Create matrix from the embeddings.
-
-        :param content: The list of sentences.
-        :param hidden: Which hidden layer to use.
-        :param reduce_option: The reduce option to run.
-        :param hidden_concat: Whether or not to concat multiple hidden layers.
-        :return: A numpy array matrix of the given content.
-        """
 
         return np.asarray([
             np.squeeze(self.extract_embeddings(
@@ -152,13 +112,4 @@ class BertParent(object):
         reduce_option: str = 'mean',
         hidden_concat: bool = False
     ) -> ndarray:
-        """
-        Create matrix from the embeddings.
-
-        :param content: The list of sentences.
-        :param hidden: Which hidden layer to use.
-        :param reduce_option: The reduce option to run.
-        :param hidden_concat: Whether or not to concat multiple hidden layers.
-        :return: A numpy array matrix of the given content.
-        """
         return self.create_matrix(content, hidden, reduce_option, hidden_concat)

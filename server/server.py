@@ -51,10 +51,6 @@ class Parser(object):
         sentences: List[str] = self.run()
         return ' '.join([sentence.strip() for sentence in sentences]).strip()
 
-@app.route('/', methods=['GET'])
-def hello_world():
-    return 'Hello, World!'
-
 @app.route('/summarize_by_sentence', methods=['POST'])
 def convert_raw_text_by_sent():
     num_sentences = int(request.args.get('num_sentences', 5))
