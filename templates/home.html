@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+</head>
+<body>
+<h1>Text Summarizer</h1>
+<form method="POST", action="{{url_for('convert_raw_text_by_sent')}}">
+	<h5>Enter the text: </h5><br>
+	<input type="text" name="original_text">
+	<input type="submit" name="submit", value="Submit">
+</form>
+</body>
+</html>
