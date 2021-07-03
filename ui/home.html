@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Text Summarizer</title>
+		<!-- CSS only -->
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+		<link rel="stylesheet" type="text/css" href="styles.css">
+		<!-- JavaScript Bundle with Popper -->
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		
+	</head>
+	<body>
+
+	<!--<h1>Text Summarizer</h1>-->
+		<div class="container">
+			<nav class="navbar navbar-expand-lg sticky-top navbar-dark">
+			    <div class="container-fluid">
+			        <a class="navbar-brand" href="#"><h1>Text Summarizer</h1></a>
+			        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar1">
+			            <span class="navbar-toggler-icon"></span>
+			        </button>
+			        <div class="collapse navbar-collapse" id="navbar1">
+			            <ul class="navbar-nav">
+			                <li class="nav-item active" style="padding-left:3.5em">
+			                    <a class="nav-link" href="#"><h5>API</h5></a>
+			                </li><br>
+			                <li class="nav-item" style="padding-left:1em">
+			                    <a class="nav-link" href="#"><h5>About the Project</h5></a>
+			                </li>
+			                <li class="nav-item" style="padding-left:1em">
+			                    <a class="nav-link" href="#"><h5>Contributors</h5></a>
+			                </li>
+			            </ul>
+			        </div>
+			    </div>
+			</nav>
+	    </div>
+		<div id="wrapper">
+			<form id="paper" method="POST", action="{{url_for('convert_raw_text_by_sent')}}">
+				<div id="margin">
+					Enter the text to be Summarized:
+				</div>
+				<!--<input type="text" name="original_text">-->
+				<textarea placeholder="Enter the text here" id="text" name="original_text" rows="8" style="overflow-y: scroll; word-wrap: break-word; resize: none; height: 360px; width: 510px ">
+				</textarea>  
+				<br>
+				<input type="submit" name="submit", value="Submit" id ="button">
+			</form>
+		</div>
+		<div id="wrapper">
+			<h3>Extractive Text Summarization using BERT</h3>
+			<p>This tool utilizes a neural network approach called BERT to run extractive summarizations. This works by first embedding the sentences with BERT, then running a clustering algorithm, finding the sentences that are closest to the cluster's centroids. This library also uses coreference techniques to resolve words in summaries that need more context.</p>
+		</div>
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+		<script src="https://static.tumblr.com/maopbtg/oimmiw86r/jquery.autosize-min.js"></script>
+		<script>
+				$(document).ready(function(){
+		    		$('#text').autosize();
+				});
+		</script>
+	</body>
+
+</html>
