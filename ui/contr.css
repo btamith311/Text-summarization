@@ -9,6 +9,6 @@
 #card-hor{
 	width:25%;
 	display: inline-block; 
-	border: 1px inset darkcyan;
+	border: 4px inset darkcyan;
 	margin-left: 100px;
 }
